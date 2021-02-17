@@ -1,0 +1,8 @@
+{
+  "usePathname": {
+    "scope": "javascriptreact,typescriptreact",
+    "prefix": "usePathname",
+    "body": ["const { pathname } = useLocation();"],
+    "description": "usePathname"
+  },
+}
