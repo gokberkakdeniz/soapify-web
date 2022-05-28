@@ -15,7 +15,7 @@ import theme from "./theme";
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
-      <Router history={history}>
+      <Router history={history} basename="/projects/soapify">
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <App />
