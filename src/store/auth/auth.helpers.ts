@@ -1,8 +1,8 @@
 const redirectUri = `${
   process.env.NODE_ENV === "production"
-    ? "https://soapify.akdeniz.dev"
-    : "http://localhost:3000"
-}/callback`;
+    ? "https://akdeniz.dev/"
+    : "http://localhost:3000/"
+}/projects/soapify/callback`;
 
 export const session = Math.random().toString(20).substr(2, 16);
 
