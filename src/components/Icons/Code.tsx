@@ -1,7 +1,7 @@
 // source: https://heroicons.com/
 import { ReactElement, SVGProps } from "react";
 
-const Code = (props: SVGProps<SVGSVGElement>): ReactElement => {
+function Code(props: SVGProps<SVGSVGElement>): ReactElement {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +20,6 @@ const Code = (props: SVGProps<SVGSVGElement>): ReactElement => {
       />
     </svg>
   );
-};
+}
 
 export default Code;

@@ -5,7 +5,7 @@ import { RoundedButton } from "..";
 import { getMessage } from "../../helpers";
 import { authRequest } from "../../store/auth";
 
-const Status = (): JSX.Element | null => {
+function Status(): JSX.Element | null {
   const dispatch = useDispatch();
   const theme = useTheme();
   const auth = useSelector((state) => state.auth);
@@ -43,6 +43,6 @@ const Status = (): JSX.Element | null => {
     default:
       return null;
   }
-};
+}
 
 export default Status;

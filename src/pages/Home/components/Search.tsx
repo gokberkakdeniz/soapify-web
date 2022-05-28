@@ -12,10 +12,10 @@ interface SearchProps {
 
 const searchTypes = ["anything", "song", "artist", "album"] as const;
 
-const Search = ({
+function Search({
   loading,
   children,
-}: PropsWithChildren<SearchProps>): JSX.Element => {
+}: PropsWithChildren<SearchProps>): JSX.Element {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.auth.status === "success");
   const [searchType, setSearchType] = useState(0);
@@ -68,6 +68,6 @@ const Search = ({
       )}
     </div>
   );
-};
+}
 
 export default Search;

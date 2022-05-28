@@ -16,7 +16,7 @@ import {
 import { getMessage } from "./helpers";
 import { Home, Callback } from "./pages";
 
-const App = (): JSX.Element => {
+function App(): JSX.Element {
   const error = useSelector((state) => state.error);
   return (
     <Layout>
@@ -45,6 +45,6 @@ const App = (): JSX.Element => {
       </Footer>
     </Layout>
   );
-};
+}
 
 export default App;

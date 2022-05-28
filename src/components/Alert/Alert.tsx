@@ -25,10 +25,10 @@ interface AlertProps {
   variant?: "error" | "info";
 }
 
-const Alert = ({
+function Alert({
   variant = "error",
   children,
-}: PropsWithChildren<AlertProps>): JSX.Element => {
+}: PropsWithChildren<AlertProps>): JSX.Element {
   const theme = useTheme();
 
   const alertContainerProps = useMemo(() => {
@@ -78,6 +78,6 @@ const Alert = ({
       <div>{children}</div>
     </AlertContainer>
   );
-};
+}
 
 export default Alert;

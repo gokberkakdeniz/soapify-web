@@ -18,11 +18,11 @@ export const RoundedButtonBase = styled.button<RoundedButtonBaseProps>`
     props.as === "button" || props.as === undefined ? "pointer" : "default"};
 `;
 
-const RoundedButton = ({
+function RoundedButton({
   children,
   color,
   ...buttonProps
-}: Parameters<typeof RoundedButtonBase>[0]): JSX.Element => {
+}: Parameters<typeof RoundedButtonBase>[0]): JSX.Element {
   return (
     <RoundedButtonBase color={color} {...buttonProps}>
       {children}
@@ -38,6 +38,6 @@ const RoundedButton = ({
       />
     </RoundedButtonBase>
   );
-};
+}
 
 export default RoundedButton;

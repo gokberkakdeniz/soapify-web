@@ -7,7 +7,7 @@ interface TrackProps {
   track: TrackSearchObject;
 }
 
-const Track = ({ track }: TrackProps): JSX.Element => {
+function Track({ track }: TrackProps): JSX.Element {
   const theme = useTheme();
 
   return (
@@ -50,6 +50,6 @@ const Track = ({ track }: TrackProps): JSX.Element => {
       </div>
     </div>
   );
-};
+}
 
 export default Track;

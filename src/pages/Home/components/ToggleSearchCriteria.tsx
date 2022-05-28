@@ -8,11 +8,11 @@ interface ToggleSearchCriteriaProps {
   setSearchType: Dispatch<SetStateAction<number>>;
 }
 
-const ToggleSearchCriteria = ({
+function ToggleSearchCriteria({
   searchTypes,
   searchType,
   setSearchType,
-}: ToggleSearchCriteriaProps): JSX.Element => {
+}: ToggleSearchCriteriaProps): JSX.Element {
   const theme = useTheme();
 
   const handle = useCallback(
@@ -38,6 +38,6 @@ const ToggleSearchCriteria = ({
       {searchTypes[searchType]}
     </span>
   );
-};
+}
 
 export default ToggleSearchCriteria;

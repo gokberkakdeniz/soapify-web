@@ -1,7 +1,7 @@
 // source: https://www.svgrepo.com/svg/203113/soap
 import { ReactElement, SVGProps } from "react";
 
-const Soap = (props: SVGProps<SVGSVGElement>): ReactElement => {
+function Soap(props: SVGProps<SVGSVGElement>): ReactElement {
   return (
     <svg
       version="1.1"
@@ -129,6 +129,6 @@ const Soap = (props: SVGProps<SVGSVGElement>): ReactElement => {
       <g />
     </svg>
   );
-};
+}
 
 export default Soap;

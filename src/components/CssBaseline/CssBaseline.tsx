@@ -3,7 +3,7 @@ import { css, Global, useTheme } from "@emotion/react";
 import { ReactElement } from "react";
 import { forms, sanitize, typography } from "emotion-sanitize";
 
-const CssBaseline = (): ReactElement => {
+function CssBaseline(): ReactElement {
   const theme = useTheme();
 
   return (
@@ -21,6 +21,6 @@ const CssBaseline = (): ReactElement => {
       `}
     />
   );
-};
+}
 
 export default CssBaseline;

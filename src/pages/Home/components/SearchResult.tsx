@@ -6,7 +6,7 @@ import { FixedSizeList } from "react-window";
 
 import Track from "./Track";
 
-const SearchResult = (): JSX.Element => {
+function SearchResult(): JSX.Element {
   const { status, result } = useSelector((state) => state.search);
 
   const renderRow = useCallback(
@@ -52,6 +52,6 @@ const SearchResult = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}
 
 export default SearchResult;

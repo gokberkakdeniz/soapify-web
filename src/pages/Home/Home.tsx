@@ -5,7 +5,7 @@ import { ProgressBar } from "../../components";
 import { Search, SearchResult } from "./components";
 import tracksLoadingSelector from "./helpers/tracks-loading-selector";
 
-const Home = (): JSX.Element => {
+function Home(): JSX.Element {
   const { loading, playlistName, percentage } = useSelector(
     tracksLoadingSelector
   );
@@ -30,6 +30,6 @@ const Home = (): JSX.Element => {
       <SearchResult />
     </div>
   );
-};
+}
 
 export default Home;

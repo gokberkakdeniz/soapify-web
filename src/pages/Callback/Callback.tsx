@@ -13,7 +13,7 @@ type StringValuedObject<T extends Record<string, any>> = {
   [_ in keyof T]: string;
 };
 
-const Callback = (): JSX.Element => {
+function Callback(): JSX.Element {
   const dispatch = useDispatch();
   const [searchParams, hashParams] = useQuery<
     StringValuedObject<AuthFailResponse>,
@@ -48,6 +48,6 @@ const Callback = (): JSX.Element => {
   }, [dispatch, searchParams, hashParams]);
 
   return <div>redirecting...</div>;
-};
+}
 
 export default Callback;

@@ -41,11 +41,11 @@ type ProgressBarProps = ProgressBarContainerProps &
   BarProps &
   Parameters<typeof ProgressBarContainer>[0];
 
-const ProgressBar = ({
+function ProgressBar({
   percentage,
   label = "",
   ...props
-}: ProgressBarProps): JSX.Element => {
+}: ProgressBarProps): JSX.Element {
   if (percentage < 0 || percentage > 100)
     throw new Error("The property 'percentage' must be between 0 and 100.");
 
@@ -54,6 +54,6 @@ const ProgressBar = ({
       <Bar percentage={percentage} />
     </ProgressBarContainer>
   );
-};
+}
 
 export default ProgressBar;

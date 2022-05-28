@@ -1,7 +1,7 @@
 // source: https://material.io/resources/icons/
 import { ReactElement, SVGProps } from "react";
 
-const Copyright = (props: SVGProps<SVGSVGElement>): ReactElement => {
+function Copyright(props: SVGProps<SVGSVGElement>): ReactElement {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,6 +24,6 @@ const Copyright = (props: SVGProps<SVGSVGElement>): ReactElement => {
       </g>
     </svg>
   );
-};
+}
 
 export default Copyright;
