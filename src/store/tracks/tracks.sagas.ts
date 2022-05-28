@@ -98,7 +98,10 @@ function* tracksRequestSaga() {
         }
       }
     } catch (err) {
-      error = { status: 0, message: err.message || "soapify/runtime_error" };
+      error = {
+        status: 0,
+        message: (err as Error).message || "soapify/runtime_error",
+      };
     }
 
     if (error) {

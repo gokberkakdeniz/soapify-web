@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import { Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { StrictMode } from "react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@emotion/react";
@@ -7,7 +7,6 @@ import { ThemeProvider } from "@emotion/react";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./store";
-import { history } from "./router";
 
 import { CssBaseline } from "./components";
 import theme from "./theme";
@@ -15,12 +14,12 @@ import theme from "./theme";
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
-      <Router history={history} basename="/projects/soapify">
+      <BrowserRouter basename="/projects/soapify">
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <App />
         </ThemeProvider>
-      </Router>
+      </BrowserRouter>
     </Provider>
   </StrictMode>,
   document.getElementById("root")

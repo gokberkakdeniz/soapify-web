@@ -46,14 +46,19 @@ function* playlistsRequestSaga() {
         }
       }
     } catch (err) {
-      error = { status: 0, message: err.message || "soapify/runtime_error" };
+      error = {
+        status: 0,
+        message: (err as Error).message || "soapify/runtime_error",
+      };
     }
 
     if (error) {
       const { message, status } = error;
       yield put(playlistsFail(status, message));
     } else {
-      const userId = yield select((state: AppState) => state.profile.id);
+      const userId: string = yield select(
+        (state: AppState) => state.profile.id
+      );
       const ownedPlaylists = playlists.filter(
         ({ owner }) => owner.id === userId
       );

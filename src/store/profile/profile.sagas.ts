@@ -35,7 +35,7 @@ export function* profileRequestSaga(): Generator<
         yield put(profileSuccess(display_name, id, type, uri, country));
       }
     } catch (err) {
-      yield put(profileFail(-1, err.message));
+      yield put(profileFail(-1, (err as Error).message));
     }
   });
 }
