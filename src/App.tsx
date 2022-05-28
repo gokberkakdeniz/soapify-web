@@ -9,7 +9,6 @@ import {
   Copyright,
   Code,
   Love,
-  Soap,
   Status,
   Alert,
 } from "./components";
@@ -22,7 +21,13 @@ function App(): JSX.Element {
     <Layout>
       <Header>
         <Brand to="/">
-          <Soap width="32px" height="32px" /> soapify
+          <img
+            width="32px"
+            height="32px"
+            src={`${process.env.PUBLIC_URL}/favicon.svg`}
+            alt="Logo"
+          />{" "}
+          soapify
         </Brand>
         <Status />
       </Header>
