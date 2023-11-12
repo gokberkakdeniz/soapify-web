@@ -92,9 +92,14 @@ function* tracksRequestSaga() {
           error = res.error;
           break;
         } else {
-          res.items.forEach((p) =>
-            playlists.tracks.push({ ...p.track, added_at: p.added_at })
-          );
+          res.items.forEach((p) => {
+            // see https://github.com/spotify/web-api/issues/958
+            if (!p.track) {
+              return;
+            }
+
+            playlists.tracks.push({ ...p.track, added_at: p.added_at });
+          });
         }
       }
     } catch (err) {
