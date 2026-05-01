@@ -22,7 +22,7 @@ function* likedRequestSaga() {
   yield takeLeading(LIKED_REQUEST, function* () {
     const tracks: TrackObject[] = [];
     let path: string | null =
-      "/me/tracks?limit=50&fields=items(added_at,track(name,uri,album(name,artists)))";
+      "/me/tracks?limit=50&fields=next,items(added_at,track(name,uri,album(name,artists)))";
     let error;
 
     try {
