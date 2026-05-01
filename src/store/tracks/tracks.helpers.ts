@@ -4,7 +4,7 @@ export const getPlaylistTracksUrl = (
   market: string,
   page: number,
 ): string => {
-  return `/playlists/${playlistId}/tracks?market=${market}&offset=${
+  return `/playlists/${playlistId}/items?market=${market}&offset=${
     page * 100
-  }&limit=100&fields=items(added_at,track(name,uri,album(name,artists)))`;
+  }&limit=100&fields=items(added_at,item(name,uri,album(name,artists)))`;
 };

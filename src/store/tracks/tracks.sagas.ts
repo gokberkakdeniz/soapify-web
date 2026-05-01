@@ -36,7 +36,7 @@ import { getPlaylistTracksUrl } from "./tracks.helpers";
 
 type GetPlaylistTracksResponse =
   | {
-      items: { track: Omit<TrackObject, "added_at">; added_at: string }[];
+      items: { item: Omit<TrackObject, "added_at">; added_at: string }[];
     }
   | ErrorObject;
 
@@ -94,11 +94,11 @@ function* tracksRequestSaga() {
         } else {
           res.items.forEach((p) => {
             // see https://github.com/spotify/web-api/issues/958
-            if (!p.track) {
+            if (!p.item) {
               return;
             }
 
-            playlists.tracks.push({ ...p.track, added_at: p.added_at });
+            playlists.tracks.push({ ...p.item, added_at: p.added_at });
           });
         }
       }
