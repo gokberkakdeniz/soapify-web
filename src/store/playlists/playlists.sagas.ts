@@ -12,6 +12,7 @@ import { get } from "../../helpers/fetch";
 import { ErrorObject, PlaylistObject } from "../../types/spotify";
 import { AppState } from "../reducer";
 import { tracksStart } from "../tracks";
+import { likedRequest } from "../liked";
 import { playlistsFail, playlistsSuccess } from "./playlists.actions";
 import { PLAYLISTS_REQUEST, PLAYLISTS_SUCCESS } from "./playlists.types";
 
@@ -70,6 +71,7 @@ function* playlistsRequestSaga() {
 function* playlistsTracksSaga() {
   yield takeLeading(PLAYLISTS_SUCCESS, function* () {
     yield put(tracksStart());
+    yield put(likedRequest());
   });
 }
 

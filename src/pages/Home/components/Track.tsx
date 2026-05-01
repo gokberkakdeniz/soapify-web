@@ -2,6 +2,7 @@
 import { css, useTheme } from "@emotion/react";
 import { TrackSearchObject } from "../../../store/search";
 import { formatDate } from "../../../helpers";
+import { Love } from "../../../components/Icons";
 
 interface TrackProps {
   track: TrackSearchObject;
@@ -45,7 +46,24 @@ function Track({ track }: TrackProps): JSX.Element {
           text-align: right;
         `}
       >
-        <div>{track.playlist_name}</div>
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+          `}
+        >
+          {track.playlist_name}
+          {track.liked && (
+            <Love
+              css={css`
+                color: #e91e63;
+                flex-shrink: 0;
+              `}
+            />
+          )}
+        </div>
         <div>{formatDate(track.added_at)}</div>
       </div>
     </div>

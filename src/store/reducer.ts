@@ -6,6 +6,7 @@ import { profileReducer } from "./profile";
 import { tracksReducer } from "./tracks";
 import { searchReducer } from "./search";
 import { errorReducer } from "./error";
+import { likedReducer } from "./liked";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   tracks: tracksReducer,
   search: searchReducer,
   error: errorReducer,
+  liked: likedReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

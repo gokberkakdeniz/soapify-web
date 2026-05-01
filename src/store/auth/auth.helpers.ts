@@ -32,7 +32,7 @@ export const getAuthUrl = async (): Promise<string> => {
     client_id: process.env.REACT_APP_SPOTIFY_CLIENT_ID!,
     response_type: "code",
     redirect_uri: REDIRECT_URI,
-    scope: "playlist-read-private,user-read-private",
+    scope: "playlist-read-private,user-read-private,user-library-read",
     state: SESSION,
     code_challenge_method: "S256",
     code_challenge: codeChallenge,

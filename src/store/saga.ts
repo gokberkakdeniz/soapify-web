@@ -7,6 +7,7 @@ import { profileSagas } from "./profile";
 import { searchSagas } from "./search";
 import { tracksSagas } from "./tracks";
 import { errorSagas } from "./error";
+import { likedSagas } from "./liked";
 
 function* rootSaga() {
   yield all([
@@ -16,6 +17,7 @@ function* rootSaga() {
     tracksSagas(),
     searchSagas(),
     errorSagas(),
+    likedSagas(),
   ]);
 }
 
