@@ -7,8 +7,10 @@ export const flatTracks = createSelector(
   (state: AppState) => state.tracks.data,
   (state: AppState) => state.playlists,
   (tracks, playlists) =>
-    Object.entries(tracks).flatMap(([playlistId, playlistTracks], pIndex) =>
-      playlistTracks.tracks.map(
+    Object.entries(tracks).flatMap(([playlistId, playlistTracks], pIndex) => {
+      const playlist = playlists[playlistId];
+      if (!playlist) return [];
+      return playlistTracks.tracks.map(
         (
           { added_at, name: track_name, album: { artists, name: album_name } },
           tIndex,
@@ -18,10 +20,10 @@ export const flatTracks = createSelector(
           artists: artists.map((artist) => artist.name),
           album_name,
           track_name,
-          playlist_name: playlists[playlistId].name,
+          playlist_name: playlist.name,
         }),
-      ),
-    ),
+      );
+    }),
 );
 
 export type TrackSearchObject = ReturnType<typeof flatTracks>[number];

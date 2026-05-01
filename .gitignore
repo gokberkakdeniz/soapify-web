@@ -23,6 +23,7 @@
 .env.production.local
 .eslintcache
 
+pnpm-workspace.yaml
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
