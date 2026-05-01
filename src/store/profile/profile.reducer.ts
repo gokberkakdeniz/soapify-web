@@ -11,7 +11,7 @@ const initialState: ProfileState = {
 
 const profileReducer = (
   state = initialState,
-  action: ProfileAction
+  action: ProfileAction,
 ): ProfileState => {
   switch (action.type) {
     case PROFILE_SUCCESS: {

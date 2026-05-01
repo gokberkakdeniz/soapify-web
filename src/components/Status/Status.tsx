@@ -1,15 +1,15 @@
 import { useTheme } from "@emotion/react";
 import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RoundedButton } from "..";
 import { getMessage } from "../../helpers";
 import { authRequest } from "../../store/auth";
 
 function Status(): JSX.Element | null {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const theme = useTheme();
-  const auth = useSelector((state) => state.auth);
-  const { display_name, loaded } = useSelector((state) => state.profile);
+  const auth = useAppSelector((state) => state.auth);
+  const { display_name, loaded } = useAppSelector((state) => state.profile);
 
   const login = useCallback(() => dispatch(authRequest()), [dispatch]);
 

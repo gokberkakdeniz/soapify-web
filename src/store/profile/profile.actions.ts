@@ -13,7 +13,7 @@ export const profileRequest = (): ProfileRequestAction => ({
 
 export const profileFail = (
   status: number,
-  message: string
+  message: string,
 ): ProfileFailAction => ({
   type: PROFILE_FAIL,
   payload: {
@@ -27,7 +27,7 @@ export const profileSuccess = (
   id: string,
   type: string,
   uri: string,
-  country: string
+  country: string,
 ): ProfileSuccessAction => ({
   type: PROFILE_SUCCESS,
   payload: {

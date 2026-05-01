@@ -2,7 +2,7 @@ import { AuthAction, AuthState, AUTH_FAIL, AUTH_SUCCESS } from "./auth.types";
 
 const authReducer = (
   state: AuthState = { status: "initial" },
-  action: AuthAction
+  action: AuthAction,
 ): AuthState => {
   switch (action.type) {
     case AUTH_SUCCESS: {

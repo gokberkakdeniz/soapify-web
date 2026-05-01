@@ -12,7 +12,7 @@ const tracksLoadingSelector = createSelector(
     playlistName: playlists[id]?.name,
     type,
     percentage: clamp(Math.floor((index / (total || 1)) * 100), 0, 100),
-  })
+  }),
 );
 
 export default tracksLoadingSelector;

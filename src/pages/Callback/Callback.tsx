@@ -1,51 +1,47 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useAppDispatch } from "../../hooks/redux";
 import useQuery from "../../hooks/useQuery";
-import {
-  authFail,
-  AuthFailResponse,
-  authSuccess,
-  AuthSuccessResponse,
-} from "../../store/auth";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type StringValuedObject<T extends Record<string, any>> = {
-  [_ in keyof T]: string;
-};
+import { authFail, authSuccess } from "../../store/auth";
+import { exchangeCode } from "../../store/auth/auth.helpers";
 
 function Callback(): JSX.Element {
-  const dispatch = useDispatch();
-  const [searchParams, hashParams] = useQuery<
-    StringValuedObject<AuthFailResponse>,
-    StringValuedObject<AuthSuccessResponse>
+  const dispatch = useAppDispatch();
+  const [{ error, state, code }] = useQuery<
+    Record<string, string>,
+    Record<string, string>
   >();
+  const isCalled = useRef(false);
 
   useEffect(() => {
-    if (!window.opener) return;
-
-    if (searchParams.error) {
-      const { state, error } = searchParams;
-
-      if (typeof error !== "string") {
-        dispatch(authFail("soapify/inconsistent_response", state));
-      } else {
-        dispatch(authFail(error, state));
-      }
-    } else {
-      const { access_token, expires_in, state, token_type } = hashParams;
-      const parsedExpiresIn = Number(expires_in);
-
-      if (
-        typeof access_token !== "string" ||
-        typeof token_type !== "string" ||
-        Number.isNaN(parsedExpiresIn)
-      ) {
-        dispatch(authFail("soapify/inconsistent_response", state));
-      } else {
-        dispatch(authSuccess(access_token, token_type, parsedExpiresIn, state));
-      }
+    if (!window.opener || isCalled.current) {
+      return;
     }
-  }, [dispatch, searchParams, hashParams]);
+
+    isCalled.current = true;
+
+    if (error) {
+      dispatch(
+        authFail(
+          typeof error === "string" ? error : "soapify/inconsistent_response",
+          state,
+        ),
+      );
+      return;
+    }
+
+    if (!code || !state) {
+      dispatch(authFail("soapify/inconsistent_response", state ?? ""));
+      return;
+    }
+
+    exchangeCode(code, state)
+      .then(({ access_token, token_type, expires_in }) => {
+        dispatch(authSuccess(access_token, token_type, expires_in, state));
+      })
+      .catch(() => {
+        dispatch(authFail("soapify/token_exchange_failed", state));
+      });
+  }, [dispatch, isCalled, error, state, code]);
 
   return <div>redirecting...</div>;
 }

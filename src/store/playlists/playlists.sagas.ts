@@ -57,10 +57,10 @@ function* playlistsRequestSaga() {
       yield put(playlistsFail(status, message));
     } else {
       const userId: string = yield select(
-        (state: AppState) => state.profile.id
+        (state: AppState) => state.profile.id,
       );
       const ownedPlaylists = playlists.filter(
-        ({ owner }) => owner.id === userId
+        ({ owner }) => owner.id === userId,
       );
       yield put(playlistsSuccess(ownedPlaylists));
     }

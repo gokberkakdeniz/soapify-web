@@ -17,7 +17,7 @@ function ToggleSearchCriteria({
 
   const handle = useCallback(
     () => setSearchType((type) => (type + 1) % searchTypes.length),
-    [searchTypes.length, setSearchType]
+    [searchTypes.length, setSearchType],
   );
 
   return (

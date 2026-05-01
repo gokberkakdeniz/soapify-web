@@ -22,7 +22,7 @@ export const get = <T>(path: string): Promise<T | ErrorObject> =>
 
 export const post = <T>(
   path: string,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ): Promise<T | ErrorObject> =>
   fetch(path.startsWith(baseUrl) ? path : baseUrl + path, {
     method: "POST",

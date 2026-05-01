@@ -23,7 +23,7 @@ export const authSuccess = (
   access_token: string,
   token_type: string,
   expires_in: number,
-  state: string
+  state: string,
 ): AuthSuccessAction => ({
   type: AUTH_SUCCESS,
   payload: {

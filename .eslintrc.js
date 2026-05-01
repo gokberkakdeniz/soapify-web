@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
@@ -11,8 +12,6 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
   ],
   plugins: ["react", "prettier", "@typescript-eslint"],
   parser: "@typescript-eslint/parser",
@@ -46,6 +45,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
+    "react/no-unknown-property": ["error", { ignore: ["css"] }],
     "default-param-last": "off",
     "no-restricted-exports": "off",
     quotes: ["error", "double"],
@@ -56,6 +56,9 @@ module.exports = {
   },
   settings: {
     "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+      },
       node: {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       },

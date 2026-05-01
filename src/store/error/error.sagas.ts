@@ -10,7 +10,7 @@ function* watchErrorsSaga() {
       if ("payload" in action) {
         yield put(errorAdd(action.payload.message || action.payload.error));
       }
-    }
+    },
   );
 }
 

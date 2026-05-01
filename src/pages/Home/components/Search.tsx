@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  ChangeEvent,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { Input } from "../../../components";
 import { searchStart } from "../../../store/search";
 import { ToggleSearchCriteria } from ".";
@@ -16,14 +22,14 @@ function Search({
   loading,
   children,
 }: PropsWithChildren<SearchProps>): JSX.Element {
-  const dispatch = useDispatch();
-  const loggedIn = useSelector((state) => state.auth.status === "success");
+  const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector((state) => state.auth.status === "success");
   const [searchType, setSearchType] = useState(0);
   const [searchQuery, setQuery] = useState("");
 
   const onSearchQueryChange = useCallback(
-    (event) => setQuery(event.target.value),
-    [setQuery]
+    (event: ChangeEvent<HTMLInputElement>) => setQuery(event.target.value),
+    [setQuery],
   );
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "always"
   },
   "editor.tabSize": 2,
   "todo-tree.general.tags": ["TODO", "FIXME", "BUG", "NOTE"],
@@ -8,11 +8,10 @@
     "NOTE": {
       "icon": "note",
       "type": "tag",
-      "foreground": "black",
-      "background": "cyan",
+      "foreground": "#000",
+      "background": "#61d1e2",
       "opacity": 50,
-      "iconColour": "blue"
+      "iconColour": "#304be5"
     }
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
 }

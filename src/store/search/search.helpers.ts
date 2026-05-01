@@ -11,7 +11,7 @@ export const flatTracks = createSelector(
       playlistTracks.tracks.map(
         (
           { added_at, name: track_name, album: { artists, name: album_name } },
-          tIndex
+          tIndex,
         ) => ({
           id: `p${pIndex}-t${tIndex}`,
           added_at,
@@ -19,16 +19,16 @@ export const flatTracks = createSelector(
           album_name,
           track_name,
           playlist_name: playlists[playlistId].name,
-        })
-      )
-    )
+        }),
+      ),
+    ),
 );
 
 export type TrackSearchObject = ReturnType<typeof flatTracks>[number];
 
 export type FilterPredicate = (
   fuse: Fuse<TrackSearchObject>,
-  text: string
+  text: string,
 ) => TrackSearchObject[];
 
 export const filterInSongs: FilterPredicate = (fuse, text) =>

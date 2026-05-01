@@ -40,7 +40,7 @@ export const tracksRequest = (
   id: string,
   market: string,
   total: number,
-  snapshot_id: string
+  snapshot_id: string,
 ): TracksRequestAction => ({
   type: TRACKS_REQUEST,
   payload: { id, market, total, snapshot_id },
@@ -48,7 +48,7 @@ export const tracksRequest = (
 
 export const tracksFail = (
   status: number,
-  message: string
+  message: string,
 ): TracksFailAction => ({
   type: TRACKS_FAIL,
   payload: {
@@ -63,7 +63,7 @@ export const tracksSuccess = (tracks: TracksObject): TracksSuccessAction => ({
 });
 
 export const tracksSuccessCached = (
-  tracks: TracksObject
+  tracks: TracksObject,
 ): TracksCachedAction => ({
   type: TRACKS_CACHED,
   payload: tracks,

@@ -12,7 +12,7 @@ const initialState: SearchState = {
 
 function searchReducer(
   state = initialState,
-  action: SearchAction
+  action: SearchAction,
 ): SearchState {
   switch (action.type) {
     case SEARCH_START: {

@@ -8,7 +8,7 @@ const initialState: PlaylistState = {};
 
 const playlistsReducer = (
   state = initialState,
-  action: PlaylistsAction
+  action: PlaylistsAction,
 ): PlaylistState => {
   switch (action.type) {
     case PLAYLISTS_SUCCESS: {
@@ -22,7 +22,7 @@ const playlistsReducer = (
             uri,
             snapshot_id,
           },
-        ]
+        ],
       );
       return Object.fromEntries(entries);
     }

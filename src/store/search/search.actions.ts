@@ -9,7 +9,7 @@ import {
 
 export const searchStart = (
   type: SearchType,
-  query: string
+  query: string,
 ): SearchStartAction => ({
   type: SEARCH_START,
   payload: { type, query },

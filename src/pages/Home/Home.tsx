@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks/redux";
 import { ProgressBar } from "../../components";
 import { Search, SearchResult } from "./components";
 import tracksLoadingSelector from "./helpers/tracks-loading-selector";
 
 function Home(): JSX.Element {
-  const { loading, playlistName, percentage } = useSelector(
-    tracksLoadingSelector
+  const { loading, playlistName, percentage } = useAppSelector(
+    tracksLoadingSelector,
   );
 
   return (

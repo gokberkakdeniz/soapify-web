@@ -1,6 +1,7 @@
 import { channel } from "redux-saga";
 import {
   all,
+  call,
   AllEffect,
   ForkEffect,
   put,
@@ -22,7 +23,7 @@ import { playlistsRequest } from "../playlists/playlists.actions";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const verifyMessage = (
-  obj: unknown
+  obj: unknown,
 ): obj is AuthFailAction | AuthSuccessAction => {
   if (typeof obj !== "object" || obj === null) return false;
   if (Object.keys(obj).length !== 2) return false;
@@ -38,14 +39,14 @@ const verifyMessage = (
 const windowChannel = channel();
 
 function* authRequestSaga(): Generator<ForkEffect<never>, void, unknown> {
-  yield takeLeading(AUTH_REQUEST, () => {
+  yield takeLeading(AUTH_REQUEST, function* () {
     const left = window.screen.width / 2 - 250;
     const top = window.screen.height / 2 - 370;
 
     window.open(
-      getAuthUrl(),
+      yield call(getAuthUrl),
       "soapify/authWindow",
-      `width=500,height=740,left=${left},top=${top}`
+      `width=500,height=740,left=${left},top=${top}`,
     );
 
     const onMessage = (event: MessageEvent) => {
@@ -79,7 +80,7 @@ function* authSuccessSaga(): Generator<ForkEffect<never>, void, unknown> {
     if (window.opener) {
       window.opener.postMessage(
         authSuccess(access_token, token_type, expires_in, state),
-        window.opener.origin
+        window.opener.origin,
       );
       window.close();
     } else {
@@ -98,7 +99,7 @@ export function* watchWindowChannel(): Generator<
     windowChannel,
     function* (action: AuthFailAction | AuthSuccessAction) {
       yield put(action);
-    }
+    },
   );
 }
 

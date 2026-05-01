@@ -30,14 +30,17 @@ const stateSanitizer = (state: any): any => ({
   },
 });
 
-const store = createStore(
-  rootReducer,
-  preloadedState,
-  composeWithDevTools({ actionSanitizer, stateSanitizer })(
-    applyMiddleware(sagaMiddleware)
-  )
+// Type mismatch between @redux-devtools/extension v4 and redux v5; cast is safe.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const enhancer: any = composeWithDevTools({ actionSanitizer, stateSanitizer })(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  applyMiddleware(sagaMiddleware) as any,
 );
 
+const store = createStore(rootReducer, preloadedState, enhancer);
+
 sagaMiddleware.run(rootSaga);
+
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

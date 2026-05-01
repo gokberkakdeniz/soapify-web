@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { useAppSelector } from "./hooks/redux";
 import {
   Header,
   Brand,
@@ -16,7 +16,7 @@ import { getMessage } from "./helpers";
 import { Home, Callback } from "./pages";
 
 function App(): JSX.Element {
-  const error = useSelector((state) => state.error);
+  const error = useAppSelector((state) => state.error);
   return (
     <Layout>
       <Header>
@@ -33,14 +33,10 @@ function App(): JSX.Element {
       </Header>
       <Main>
         {error.error && <Alert>{getMessage(error.message)}</Alert>}
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/callback" exact>
-            <Callback />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/callback" element={<Callback />} />
+        </Routes>
       </Main>
       <Footer>
         Copyright <Copyright /> 2021{" "}

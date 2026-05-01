@@ -43,13 +43,13 @@ type GetPlaylistTracksResponse =
 function* tracksStartSaga() {
   yield takeEvery(TRACKS_START, function* () {
     const tracks: TracksData = yield select(
-      (state: AppState) => state.tracks.data
+      (state: AppState) => state.tracks.data,
     );
     const playlists: PlaylistState = yield select(
-      (state: AppState) => state.playlists
+      (state: AppState) => state.playlists,
     );
     const country: string = yield select(
-      (state: AppState) => state.profile.country
+      (state: AppState) => state.profile.country,
     );
 
     yield put(tracksReset());
@@ -122,7 +122,7 @@ function* tracksPersistSaga() {
   yield takeEvery(TRACKS_PERSIST, function* () {
     const userId: string = yield select((state: AppState) => state.profile.id);
     const tracks: TracksState = yield select(
-      (state: AppState) => state.tracks.data
+      (state: AppState) => state.tracks.data,
     );
     localStorage.setItem(`tracks.${userId}`, JSON.stringify(tracks));
   });

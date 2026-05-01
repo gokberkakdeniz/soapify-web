@@ -2,7 +2,7 @@
 export const getPlaylistTracksUrl = (
   playlistId: string,
   market: string,
-  page: number
+  page: number,
 ): string => {
   return `/playlists/${playlistId}/tracks?market=${market}&offset=${
     page * 100

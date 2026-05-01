@@ -1,22 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useCallback } from "react";
-import { useSelector } from "react-redux";
-import { FixedSizeList } from "react-window";
+import { List, RowComponentProps } from "react-window";
+import { useAppSelector } from "../../../hooks/redux";
 
+import { TrackSearchObject } from "../../../store/search/search.helpers";
 import Track from "./Track";
 
-function SearchResult(): JSX.Element {
-  const { status, result } = useSelector((state) => state.search);
+type RowData = { result: TrackSearchObject[] };
 
-  const renderRow = useCallback(
-    ({ index, style }) => (
-      <div style={style}>
-        <Track track={result[index]} />
-      </div>
-    ),
-    [result]
+function RowComponent({ index, style, result }: RowComponentProps<RowData>) {
+  return (
+    <div style={style}>
+      <Track track={result[index]} />
+    </div>
   );
+}
+
+function SearchResult(): JSX.Element {
+  const { status, result } = useAppSelector((state) => state.search);
 
   return (
     <div
@@ -41,14 +42,13 @@ function SearchResult(): JSX.Element {
         )}
       </div>
       <div>
-        <FixedSizeList
-          height={560}
-          itemCount={result.length}
-          itemSize={56}
-          width="100%"
-        >
-          {renderRow}
-        </FixedSizeList>
+        <List<RowData>
+          rowCount={result.length}
+          rowHeight={56}
+          rowComponent={RowComponent}
+          rowProps={{ result }}
+          style={{ height: 560, width: "100%" }}
+        />
       </div>
     </div>
   );

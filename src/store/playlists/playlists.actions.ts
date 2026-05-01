@@ -14,7 +14,7 @@ export const playlistsRequest = (): PlaylistsRequestAction => ({
 
 export const playlistsFail = (
   status: number,
-  message: string
+  message: string,
 ): PlaylistsFailAction => ({
   type: PLAYLISTS_FAIL,
   payload: {
@@ -24,7 +24,7 @@ export const playlistsFail = (
 });
 
 export const playlistsSuccess = (
-  playlists: PlaylistObject[]
+  playlists: PlaylistObject[],
 ): PlaylistsSuccessAction => ({
   type: PLAYLISTS_SUCCESS,
   payload: playlists,

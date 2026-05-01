@@ -4,7 +4,7 @@ const initialState: ErrorState = { error: false };
 
 export default function errorReducer(
   state = initialState,
-  action: ErrorAction
+  action: ErrorAction,
 ): ErrorState {
   switch (action.type) {
     case ERROR_CLEAR:

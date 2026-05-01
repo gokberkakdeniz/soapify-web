@@ -22,7 +22,7 @@ const initialState: TracksState = {
 
 const tracksReducer = (
   state = initialState,
-  action: TracksAction
+  action: TracksAction,
 ): TracksState => {
   switch (action.type) {
     case TRACKS_RESET:
