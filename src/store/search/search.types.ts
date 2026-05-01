@@ -22,6 +22,8 @@ export interface SearchEndAction {
 export interface SearchState {
   status: SearchStatus;
   result: TrackSearchObject[];
+  query: string;
+  type: SearchType;
 }
 
 export type SearchAction = SearchStartAction | SearchEndAction;

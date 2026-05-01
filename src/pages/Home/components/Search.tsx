@@ -24,19 +24,34 @@ function Search({
 }: PropsWithChildren<SearchProps>): JSX.Element {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.auth.status === "success");
-  const [searchType, setSearchType] = useState(0);
-  const [searchQuery, setQuery] = useState("");
+  const reduxQuery = useAppSelector((state) => state.search.query);
+  const reduxType = useAppSelector((state) => state.search.type);
+
+  const [searchType, setSearchType] = useState(
+    () => searchTypes.indexOf(reduxType as (typeof searchTypes)[number]) || 0,
+  );
+
+  useEffect(() => {
+    const idx = searchTypes.indexOf(reduxType as (typeof searchTypes)[number]);
+    if (idx !== -1) setSearchType(idx);
+  }, [reduxType]);
 
   const onSearchQueryChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => setQuery(event.target.value),
-    [setQuery],
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (loggedIn) {
+        dispatch(searchStart(searchTypes[searchType], event.target.value));
+      }
+    },
+    [dispatch, searchType, loggedIn],
   );
 
   useEffect(() => {
     if (loggedIn) {
-      dispatch(searchStart(searchTypes[searchType], searchQuery));
+      dispatch(searchStart(searchTypes[searchType], reduxQuery));
     }
-  }, [dispatch, searchType, searchQuery, loggedIn]);
+    // only re-run when searchType changes (query is already in Redux)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, searchType, loggedIn]);
 
   return (
     <div
@@ -65,12 +80,47 @@ function Search({
       {loading ? (
         children
       ) : (
-        <Input
-          name="searchQuery"
-          type="text"
-          onChange={onSearchQueryChange}
-          placeholder={loggedIn ? "" : "Login to search..."}
-        />
+        <div
+          css={css`
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+          `}
+        >
+          <Input
+            name="searchQuery"
+            type="text"
+            value={reduxQuery}
+            onChange={onSearchQueryChange}
+            placeholder={loggedIn ? "" : "Login to search..."}
+            css={css`
+              padding-right: ${reduxQuery ? "1.75rem" : "0.5rem"};
+            `}
+          />
+          {reduxQuery && (
+            <button
+              type="button"
+              aria-label="Temizle"
+              onClick={() => dispatch(searchStart(searchTypes[searchType], ""))}
+              css={css`
+                position: absolute;
+                right: 1rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                line-height: 1;
+                color: inherit;
+                opacity: 0.5;
+                :hover {
+                  opacity: 1;
+                }
+              `}
+            >
+              ✕
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

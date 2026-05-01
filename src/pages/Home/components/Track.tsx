@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css, useTheme } from "@emotion/react";
-import { TrackSearchObject } from "../../../store/search";
+import { useAppDispatch } from "../../../hooks/redux";
+import { searchStart, TrackSearchObject } from "../../../store/search";
 import { formatDate } from "../../../helpers";
 import { Love } from "../../../components/Icons";
 
@@ -10,6 +11,7 @@ interface TrackProps {
 
 function Track({ track }: TrackProps): JSX.Element {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -35,9 +37,47 @@ function Track({ track }: TrackProps): JSX.Element {
         `}
       >
         <div>
-          {track.artists.join(",")} &mdash; {track.track_name}
+          {track.artists.map((artist, i) => (
+            <span key={artist}>
+              {i > 0 && ","}
+              <span
+                role="button"
+                tabIndex={0}
+                css={css`
+                  cursor: pointer;
+                  :hover {
+                    text-decoration: underline;
+                  }
+                `}
+                onClick={() => dispatch(searchStart("artist", artist))}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    dispatch(searchStart("artist", artist));
+                }}
+              >
+                {artist}
+              </span>
+            </span>
+          ))}{" "}
+          &mdash; {track.track_name}
         </div>
-        <div>{track.album_name}</div>
+        <div
+          role="button"
+          tabIndex={0}
+          css={css`
+            cursor: pointer;
+            :hover {
+              text-decoration: underline;
+            }
+          `}
+          onClick={() => dispatch(searchStart("album", track.album_name))}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ")
+              dispatch(searchStart("album", track.album_name));
+          }}
+        >
+          {track.album_name}
+        </div>
       </div>
       <div
         css={css`

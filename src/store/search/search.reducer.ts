@@ -8,6 +8,8 @@ import {
 const initialState: SearchState = {
   status: "idle",
   result: [],
+  query: "",
+  type: "anything",
 };
 
 function searchReducer(
@@ -16,14 +18,15 @@ function searchReducer(
 ): SearchState {
   switch (action.type) {
     case SEARCH_START: {
-      const { query } = action.payload;
+      const { query, type } = action.payload;
       return query === ""
-        ? { status: "idle", result: [] }
-        : { status: "searching", result: [] };
+        ? { ...initialState }
+        : { status: "searching", result: [], query, type };
     }
 
     case SEARCH_END:
       return {
+        ...state,
         status: action.payload.length > 0 ? "found" : "not_found",
         result: action.payload,
       };
