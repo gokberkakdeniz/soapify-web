@@ -12,6 +12,12 @@ interface TrackProps {
 // eslint-disable-next-line prettier/prettier
 const escapeQuotes = (s: string) => s.replace(/"/g, "\\\"");
 
+const ellipsis = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 function Track({ track }: TrackProps): JSX.Element {
   const theme = useTheme();
   const dispatch = useAppDispatch();
@@ -21,15 +27,16 @@ function Track({ track }: TrackProps): JSX.Element {
       css={css`
         display: flex;
         justify-content: space-between;
+        align-items: stretch;
+        height: 52px; /* rowHeight 56px - 2px margin top - 2px margin bottom */
         margin: 2px 0;
         padding: 2px 4px;
+        box-sizing: border-box;
         border-radius: 2px;
+        overflow: hidden;
         background-color: ${theme.colors.background.secondary};
         :hover {
           background-color: ${theme.colors.background.terniary};
-        }
-        * {
-          text-overflow: ellipsis;
         }
       `}
     >
@@ -37,9 +44,16 @@ function Track({ track }: TrackProps): JSX.Element {
         css={css`
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
+          flex: 1 1 0;
+          min-width: 0;
+          overflow: hidden;
         `}
       >
-        <div>
+        <div
+          css={ellipsis}
+          title={`${track.artists.join(", ")} — ${track.track_name}`}
+        >
           {track.artists.map((artist, i) => (
             <span key={artist}>
               {i > 0 && ","}
@@ -64,7 +78,21 @@ function Track({ track }: TrackProps): JSX.Element {
               </span>
             </span>
           ))}{" "}
-          &mdash; {track.track_name}
+          &mdash;{" "}
+          <a
+            href={track.uri}
+            target="_self"
+            rel="noreferrer"
+            css={css`
+              color: inherit;
+              text-decoration: none;
+              :hover {
+                text-decoration: underline;
+              }
+            `}
+          >
+            {track.track_name}
+          </a>
         </div>
         <div
           role="button"
@@ -74,6 +102,7 @@ function Track({ track }: TrackProps): JSX.Element {
             :hover {
               text-decoration: underline;
             }
+            ${ellipsis}
           `}
           onClick={() =>
             dispatch(searchStart(`album:"${escapeQuotes(track.album_name)}"`))
@@ -92,15 +121,22 @@ function Track({ track }: TrackProps): JSX.Element {
         css={css`
           display: flex;
           flex-direction: column;
-          text-align: right;
+          justify-content: space-between;
+          align-items: flex-end;
+          flex-shrink: 0;
+          max-width: 40%;
+          min-width: 0;
+          overflow: hidden;
+          padding-left: 6px;
         `}
       >
         <div
           css={css`
             display: flex;
             align-items: center;
-            justify-content: flex-end;
             gap: 4px;
+            max-width: 100%;
+            overflow: hidden;
           `}
         >
           {track.playlist_name && (
@@ -112,6 +148,8 @@ function Track({ track }: TrackProps): JSX.Element {
                 :hover {
                   text-decoration: underline;
                 }
+                min-width: 0;
+                ${ellipsis}
               `}
               onClick={() =>
                 dispatch(

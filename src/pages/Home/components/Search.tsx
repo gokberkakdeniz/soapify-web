@@ -50,8 +50,9 @@ function Search({
         <div
           css={css`
             position: relative;
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            width: 100%;
           `}
         >
           <Input
@@ -62,6 +63,10 @@ function Search({
             placeholder={loggedIn ? "" : "Login to search..."}
             css={css`
               padding-right: ${reduxQuery ? "1.75rem" : "0.5rem"};
+              margin-left: 0;
+              margin-right: 0;
+              width: 100%;
+              box-sizing: border-box;
             `}
           />
           {reduxQuery && (

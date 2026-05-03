@@ -30,6 +30,7 @@ export const flatTracks = createSelector(
             return {
               id: `p${pIndex}-t${tIndex}`,
               added_at,
+              uri,
               artists: artists.map((artist) => artist.name),
               album_name,
               track_name,
@@ -45,11 +46,17 @@ export const flatTracks = createSelector(
       .filter((t) => !playlistUris.has(t.uri))
       .map(
         (
-          { added_at, name: track_name, album: { artists, name: album_name } },
+          {
+            added_at,
+            uri,
+            name: track_name,
+            album: { artists, name: album_name },
+          },
           tIndex,
         ) => ({
           id: `liked-${tIndex}`,
           added_at,
+          uri,
           artists: artists.map((artist) => artist.name),
           album_name,
           track_name,
