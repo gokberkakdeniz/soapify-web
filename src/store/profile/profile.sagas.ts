@@ -4,21 +4,16 @@ import {
   call,
   ForkEffect,
   put,
-  select,
   takeEvery,
 } from "redux-saga/effects";
 import {
   ProfileFailAction,
   PROFILE_FAIL,
   PROFILE_REQUEST,
-  PROFILE_SUCCESS,
 } from "./profile.types";
 import { profileFail, profileSuccess } from "./profile.actions";
 import { get } from "../../helpers/fetch";
 import { ErrorObject, UserObject } from "../../types/spotify";
-import { AppState } from "../reducer";
-import { tracksRestore } from "../tracks";
-import { likedRestore } from "../liked";
 
 export function* profileRequestSaga(): Generator<
   ForkEffect<never>,
@@ -41,35 +36,6 @@ export function* profileRequestSaga(): Generator<
   });
 }
 
-function* profileSuccessSaga() {
-  yield takeEvery(PROFILE_SUCCESS, function* () {
-    const userId: string = yield select((state: AppState) => state.profile.id);
-    try {
-      // @ts-expect-error
-      const tracks = JSON.parse(localStorage.getItem(`tracks.${userId}`));
-      if (typeof tracks === "object" && tracks != null) {
-        yield put(tracksRestore(tracks));
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    }
-
-    try {
-      const liked = JSON.parse(
-        // @ts-expect-error
-        localStorage.getItem(`liked.${userId}`),
-      );
-      if (Array.isArray(liked)) {
-        yield put(likedRestore(liked));
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    }
-  });
-}
-
 export function* profileFailSaga(): Generator<
   ForkEffect<never>,
   void,
@@ -86,5 +52,5 @@ export default function* profileSaga(): Generator<
   void,
   unknown
 > {
-  yield all([profileRequestSaga(), profileSuccessSaga(), profileFailSaga()]);
+  yield all([profileRequestSaga(), profileFailSaga()]);
 }

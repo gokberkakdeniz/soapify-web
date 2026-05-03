@@ -2,7 +2,6 @@ import {
   TracksAction,
   TracksState,
   TRACKS_RESET,
-  TRACKS_RESTORE,
   TRACKS_SUCCESS,
   TRACKS_CACHED,
   TRACKS_START,
@@ -27,12 +26,6 @@ const tracksReducer = (
   switch (action.type) {
     case TRACKS_RESET:
       return { ...initialState };
-    case TRACKS_RESTORE:
-      return {
-        status: "loaded",
-        progress: initialState.progress,
-        data: action.payload,
-      };
     case TRACKS_PERSIST:
       return {
         ...state,

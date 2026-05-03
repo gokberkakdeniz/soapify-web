@@ -4,7 +4,6 @@ import {
   LIKED_FAIL,
   LIKED_PERSIST,
   LIKED_REQUEST,
-  LIKED_RESTORE,
   LIKED_SUCCESS,
 } from "./liked.types";
 
@@ -24,8 +23,6 @@ const likedReducer = (
       return { status: "loaded", tracks: action.payload };
     case LIKED_FAIL:
       return { ...state, status: "loaded" };
-    case LIKED_RESTORE:
-      return { status: "loaded", tracks: action.payload };
     case LIKED_PERSIST:
       return { ...state, status: "loaded" };
     default:

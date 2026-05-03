@@ -5,7 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import { useAppSelector } from "../../../hooks/redux";
-import { artistStats } from "../../../store/search/search.helpers";
+import {
+  artistStats,
+  isDataLoaded,
+} from "../../../store/search/search.helpers";
 import { get } from "../../../helpers/fetch";
 import { ArtistDetailObject, ArtistsResponse } from "../../../types/spotify";
 import ArtistCard from "./ArtistCard";
@@ -17,7 +20,7 @@ const VARIOUS_ARTISTS_ID = "0LyfQWJT6nXafLPZqxe9Of";
 
 function ArtistRecommendations(): JSX.Element | null {
   const theme = useTheme();
-  const isLoaded = useAppSelector((state) => state.tracks.status === "loaded");
+  const isLoaded = useAppSelector(isDataLoaded);
   const stats = useAppSelector(artistStats);
   const [seed, setSeed] = useState(0);
 

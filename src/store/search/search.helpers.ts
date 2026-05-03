@@ -4,6 +4,9 @@ import Fuse from "fuse.js";
 import { AppState } from "../reducer";
 import { ArtistObject } from "../../types/spotify";
 
+export const isDataLoaded = (state: AppState): boolean =>
+  state.tracks.status === "loaded" && state.liked.status === "loaded";
+
 export const flatTracks = createSelector(
   (state: AppState) => state.tracks.data,
   (state: AppState) => state.playlists,

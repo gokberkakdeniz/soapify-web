@@ -6,7 +6,6 @@ import {
   TRACKS_SUCCESS,
   TRACKS_CACHED,
   TRACKS_PERSIST,
-  TRACKS_RESTORE,
   TracksStartAction,
   TracksResetAction,
   TracksFailAction,
@@ -14,9 +13,7 @@ import {
   TracksSuccessAction,
   TracksCachedAction,
   TracksPersistAction,
-  TracksRestoreAction,
   TracksObject,
-  TracksData,
 } from "./tracks.types";
 
 export const tracksStart = (): TracksStartAction => ({
@@ -29,11 +26,6 @@ export const tracksReset = (): TracksResetAction => ({
 
 export const tracksPersist = (): TracksPersistAction => ({
   type: TRACKS_PERSIST,
-});
-
-export const tracksRestore = (state: TracksData): TracksRestoreAction => ({
-  type: TRACKS_RESTORE,
-  payload: state,
 });
 
 export const tracksRequest = (

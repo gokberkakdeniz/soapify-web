@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../hooks/redux";
 import {
   TrackSearchObject,
   flatTracks,
+  isDataLoaded,
 } from "../../../store/search/search.helpers";
 import Track from "./Track";
 import ToggleSearchCriteria from "./ToggleSearchCriteria";
@@ -49,9 +50,7 @@ function RowComponent({ index, style, result }: RowComponentProps<RowData>) {
 function SearchResult(): JSX.Element {
   const { status, result } = useAppSelector((state) => state.search);
   const allTracks = useAppSelector(flatTracks);
-  const isTracksLoaded = useAppSelector(
-    (state) => state.tracks.status === "loaded",
-  );
+  const isTracksLoaded = useAppSelector(isDataLoaded);
 
   const [sortKeyIndex, setSortKeyIndex] = useState(0);
   const [sortDirIndex, setSortDirIndex] = useState(1);

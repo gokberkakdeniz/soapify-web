@@ -7,7 +7,6 @@ export const TRACKS_FAIL = "tracks/fail";
 export const TRACKS_SUCCESS = "tracks/success";
 export const TRACKS_CACHED = "tracks/cached";
 export const TRACKS_PERSIST = "tracks/persist";
-export const TRACKS_RESTORE = "tracks/restore";
 
 export interface TracksObject {
   id: string;
@@ -37,11 +36,6 @@ export interface TracksResetAction {
 
 export interface TracksPersistAction {
   type: typeof TRACKS_PERSIST;
-}
-
-export interface TracksRestoreAction {
-  type: typeof TRACKS_RESTORE;
-  payload: TracksData;
 }
 
 export interface TracksRequestAction {
@@ -76,5 +70,4 @@ export type TracksAction =
   | TracksSuccessAction
   | TracksCachedAction
   | TracksPersistAction
-  | TracksResetAction
-  | TracksRestoreAction;
+  | TracksResetAction;

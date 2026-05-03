@@ -25,7 +25,6 @@ import {
   TracksData,
   TracksObject,
   TracksRequestAction,
-  TracksState,
   TRACKS_FAIL,
   TRACKS_PERSIST,
   TRACKS_REQUEST,
@@ -42,9 +41,7 @@ type GetPlaylistTracksResponse =
 
 function* tracksStartSaga() {
   yield takeEvery(TRACKS_START, function* () {
-    const tracks: TracksData = yield select(
-      (state: AppState) => state.tracks.data,
-    );
+    const userId: string = yield select((state: AppState) => state.profile.id);
     const playlists: PlaylistState = yield select(
       (state: AppState) => state.playlists,
     );
@@ -52,19 +49,29 @@ function* tracksStartSaga() {
       (state: AppState) => state.profile.country,
     );
 
+    let cachedTracks: TracksData = {};
+    try {
+      const raw = localStorage.getItem(`tracks.${userId}`);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if (typeof parsed === "object" && parsed !== null) {
+        cachedTracks = parsed;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_e) {
+      // noop
+    }
+
     yield put(tracksReset());
 
-    const playlistIds = Object.keys(playlists);
-
-    for (let i = 0; i < playlistIds.length; i += 1) {
-      const id = playlistIds[i];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const id of Object.keys(playlists)) {
       const {
         snapshot_id,
         tracks: { total },
       } = playlists[id];
 
-      if (tracks[id]?.snapshot_id === snapshot_id) {
-        yield put(tracksSuccessCached({ ...tracks[id], id }));
+      if (cachedTracks[id]?.snapshot_id === snapshot_id) {
+        yield put(tracksSuccessCached({ ...cachedTracks[id], id }));
       } else {
         yield put(tracksRequest(id, country, total, snapshot_id));
         yield take([TRACKS_SUCCESS, TRACKS_FAIL]);
@@ -121,7 +128,7 @@ function* tracksRequestSaga() {
 function* tracksPersistSaga() {
   yield takeEvery(TRACKS_PERSIST, function* () {
     const userId: string = yield select((state: AppState) => state.profile.id);
-    const tracks: TracksState = yield select(
+    const tracks: TracksData = yield select(
       (state: AppState) => state.tracks.data,
     );
     localStorage.setItem(`tracks.${userId}`, JSON.stringify(tracks));
