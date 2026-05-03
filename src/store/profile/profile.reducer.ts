@@ -7,6 +7,7 @@ const initialState: ProfileState = {
   type: "",
   uri: "",
   country: "",
+  image: "",
 };
 
 const profileReducer = (
@@ -15,8 +16,8 @@ const profileReducer = (
 ): ProfileState => {
   switch (action.type) {
     case PROFILE_SUCCESS: {
-      const { display_name, id, type, uri, country } = action.payload;
-      return { loaded: true, display_name, id, type, uri, country };
+      const { display_name, id, type, uri, country, image } = action.payload;
+      return { loaded: true, display_name, id, type, uri, country, image };
     }
     default:
       return state;

@@ -10,6 +10,7 @@ export interface UserObject {
   type: string;
   uri: string;
   country: string;
+  images?: Array<{ url: string; height: number; width: number }>;
 }
 
 export interface PlaylistObject {

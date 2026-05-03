@@ -1,5 +1,4 @@
 /* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 interface RoundedButtonBaseProps {
@@ -26,16 +25,6 @@ function RoundedButton({
   return (
     <RoundedButtonBase color={color} {...buttonProps}>
       {children}
-      <div
-        css={css`
-          width: 16px;
-          height: 16px;
-          border-radius: 100%;
-          background-color: ${color};
-          margin-left: 6px;
-          margin-right: -3px;
-        `}
-      />
     </RoundedButtonBase>
   );
 }

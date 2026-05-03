@@ -15,10 +15,13 @@ export interface ProfileFailAction {
 
 export interface ProfileSuccessAction {
   type: typeof PROFILE_SUCCESS;
-  payload: UserObject;
+  payload: Omit<UserObject, "images"> & { image: string };
 }
 
-export type ProfileState = UserObject & { loaded: boolean };
+export type ProfileState = Omit<UserObject, "images"> & {
+  loaded: boolean;
+  image: string;
+};
 
 export type ProfileAction =
   | ProfileRequestAction

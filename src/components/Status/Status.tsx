@@ -1,4 +1,5 @@
-import { useTheme } from "@emotion/react";
+/** @jsxImportSource @emotion/react */
+import { css, useTheme } from "@emotion/react";
 import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RoundedButton } from "..";
@@ -9,7 +10,9 @@ function Status(): JSX.Element | null {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const auth = useAppSelector((state) => state.auth);
-  const { display_name, loaded } = useAppSelector((state) => state.profile);
+  const { display_name, image, loaded } = useAppSelector(
+    (state) => state.profile,
+  );
 
   const login = useCallback(() => dispatch(authRequest()), [dispatch]);
 
@@ -23,6 +26,20 @@ function Status(): JSX.Element | null {
     case "success":
       return loaded ? (
         <RoundedButton as="div" color={theme.colors.accent.primary}>
+          {image && (
+            <img
+              src={image}
+              alt=""
+              css={css`
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                margin-right: 8px;
+                object-fit: cover;
+                vertical-align: middle;
+              `}
+            />
+          )}
           {display_name}
         </RoundedButton>
       ) : (

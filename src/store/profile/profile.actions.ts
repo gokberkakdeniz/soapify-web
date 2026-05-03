@@ -28,6 +28,7 @@ export const profileSuccess = (
   type: string,
   uri: string,
   country: string,
+  image: string,
 ): ProfileSuccessAction => ({
   type: PROFILE_SUCCESS,
   payload: {
@@ -36,5 +37,6 @@ export const profileSuccess = (
     type,
     uri,
     country,
+    image,
   },
 });

@@ -27,8 +27,9 @@ export function* profileRequestSaga(): Generator<
         const { status, message } = res.error;
         yield put(profileFail(status, message));
       } else {
-        const { display_name, id, type, uri, country } = res;
-        yield put(profileSuccess(display_name, id, type, uri, country));
+        const { display_name, id, type, uri, country, images } = res;
+        const image = images?.[0]?.url ?? "";
+        yield put(profileSuccess(display_name, id, type, uri, country, image));
       }
     } catch (err) {
       yield put(profileFail(-1, (err as Error).message));
