@@ -94,7 +94,27 @@ function Track({ track }: TrackProps): JSX.Element {
             gap: 4px;
           `}
         >
-          {track.playlist_name}
+          {track.playlist_name && (
+            <span
+              role="button"
+              tabIndex={0}
+              css={css`
+                cursor: pointer;
+                :hover {
+                  text-decoration: underline;
+                }
+              `}
+              onClick={() =>
+                dispatch(searchStart(`playlist:"${track.playlist_name}"`))
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ")
+                  dispatch(searchStart(`playlist:"${track.playlist_name}"`));
+              }}
+            >
+              {track.playlist_name}
+            </span>
+          )}
           {track.liked && (
             <Love
               css={css`
