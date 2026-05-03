@@ -49,10 +49,10 @@ function Track({ track }: TrackProps): JSX.Element {
                     text-decoration: underline;
                   }
                 `}
-                onClick={() => dispatch(searchStart("artist", artist))}
+                onClick={() => dispatch(searchStart(`artist:"${artist}"`))}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ")
-                    dispatch(searchStart("artist", artist));
+                    dispatch(searchStart(`artist:"${artist}"`));
                 }}
               >
                 {artist}
@@ -70,10 +70,10 @@ function Track({ track }: TrackProps): JSX.Element {
               text-decoration: underline;
             }
           `}
-          onClick={() => dispatch(searchStart("album", track.album_name))}
+          onClick={() => dispatch(searchStart(`album:"${track.album_name}"`))}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ")
-              dispatch(searchStart("album", track.album_name));
+              dispatch(searchStart(`album:"${track.album_name}"`));
           }}
         >
           {track.album_name}

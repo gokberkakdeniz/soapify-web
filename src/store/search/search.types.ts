@@ -4,14 +4,10 @@ export const SEARCH_START = "search/start";
 export const SEARCH_END = "search/end";
 
 export type SearchStatus = "idle" | "searching" | "found" | "not_found";
-export type SearchType = "song" | "album" | "artist" | "anything";
 
 export interface SearchStartAction {
   type: typeof SEARCH_START;
-  payload: {
-    type: SearchType;
-    query: string;
-  };
+  payload: { query: string };
 }
 
 export interface SearchEndAction {
@@ -23,7 +19,6 @@ export interface SearchState {
   status: SearchStatus;
   result: TrackSearchObject[];
   query: string;
-  type: SearchType;
 }
 
 export type SearchAction = SearchStartAction | SearchEndAction;

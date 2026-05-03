@@ -63,28 +63,83 @@ export const flatTracks = createSelector(
 
 export type TrackSearchObject = ReturnType<typeof flatTracks>[number];
 
-export type FilterPredicate = (
-  fuse: Fuse<TrackSearchObject>,
-  text: string,
-) => TrackSearchObject[];
-
-export const filterInSongs: FilterPredicate = (fuse, text) =>
-  fuse.search({ track_name: text }).map(({ item }) => item);
-
-export const filterInAlbums: FilterPredicate = (fuse, text) =>
-  fuse.search({ album_name: text }).map(({ item }) => item);
-
-export const filterInArtists: FilterPredicate = (fuse, text) =>
-  fuse.search({ artists: text }).map(({ item }) => item);
-
-export const filterInAll: FilterPredicate = (fuse, text) =>
-  fuse.search(text).map(({ item }) => item);
-
 export const createIndex = memorize((tracks: TrackSearchObject[]) => {
-  const fuse = new Fuse<TrackSearchObject>(tracks, {
-    keys: ["track_name", "album_name", "artists"],
+  return new Fuse<TrackSearchObject>(tracks, {
+    keys: [
+      "track_name",
+      "album_name",
+      "artists",
+      "playlist_name",
+      { name: "liked", getFn: (t) => String(t.liked) },
+    ],
+    useExtendedSearch: true,
     threshold: 0.2,
   });
-
-  return fuse;
 });
+
+interface ParsedQuery {
+  album?: string;
+  track?: string;
+  artist?: string;
+  playlist?: string;
+  library?: boolean;
+  text: string;
+}
+
+const parseQuery = (query: string): ParsedQuery => {
+  const result: ParsedQuery = { text: "" };
+  let remaining = query;
+
+  remaining = remaining.replace(
+    /(album|track|artist|playlist):(?:"([^"]*)"|(\S+))/g,
+    (_, field: string, quoted: string, unquoted: string) => {
+      (result as unknown as Record<string, unknown>)[field] =
+        quoted ?? unquoted;
+      return "";
+    },
+  );
+
+  remaining = remaining.replace(/\+library\b/g, () => {
+    result.library = true;
+    return "";
+  });
+  remaining = remaining.replace(/-library\b/g, () => {
+    result.library = false;
+    return "";
+  });
+
+  result.text = remaining.trim();
+  return result;
+};
+
+export const filterWithDSL = (
+  fuse: Fuse<TrackSearchObject>,
+  query: string,
+): TrackSearchObject[] => {
+  if (!query.trim()) return [];
+
+  const parsed = parseQuery(query);
+
+  const conditions: object[] = [];
+  if (parsed.library !== undefined)
+    conditions.push({ liked: parsed.library ? "=true" : "=false" });
+  if (parsed.album) conditions.push({ album_name: parsed.album });
+  if (parsed.track) conditions.push({ track_name: parsed.track });
+  if (parsed.artist) conditions.push({ artists: parsed.artist });
+  if (parsed.playlist) conditions.push({ playlist_name: parsed.playlist });
+  if (parsed.text)
+    conditions.push({
+      $or: [
+        { track_name: parsed.text },
+        { album_name: parsed.text },
+        { artists: parsed.text },
+        { playlist_name: parsed.text },
+      ],
+    });
+
+  if (!conditions.length) return [];
+
+  return fuse
+    .search(conditions.length === 1 ? conditions[0] : { $and: conditions })
+    .map(({ item }) => item);
+};

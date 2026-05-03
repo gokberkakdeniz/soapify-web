@@ -1,22 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import {
-  ChangeEvent,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, PropsWithChildren, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { Input } from "../../../components";
 import { searchStart } from "../../../store/search";
-import { ToggleSearchCriteria } from ".";
 
 interface SearchProps {
   loading: boolean;
 }
-
-const searchTypes = ["anything", "song", "artist", "album"] as const;
 
 function Search({
   loading,
@@ -25,33 +16,15 @@ function Search({
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.auth.status === "success");
   const reduxQuery = useAppSelector((state) => state.search.query);
-  const reduxType = useAppSelector((state) => state.search.type);
-
-  const [searchType, setSearchType] = useState(
-    () => searchTypes.indexOf(reduxType as (typeof searchTypes)[number]) || 0,
-  );
-
-  useEffect(() => {
-    const idx = searchTypes.indexOf(reduxType as (typeof searchTypes)[number]);
-    if (idx !== -1) setSearchType(idx);
-  }, [reduxType]);
 
   const onSearchQueryChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       if (loggedIn) {
-        dispatch(searchStart(searchTypes[searchType], event.target.value));
+        dispatch(searchStart(event.target.value));
       }
     },
-    [dispatch, searchType, loggedIn],
+    [dispatch, loggedIn],
   );
-
-  useEffect(() => {
-    if (loggedIn) {
-      dispatch(searchStart(searchTypes[searchType], reduxQuery));
-    }
-    // only re-run when searchType changes (query is already in Redux)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, searchType, loggedIn]);
 
   return (
     <div
@@ -69,13 +42,7 @@ function Search({
           text-align: center;
         `}
       >
-        search{" "}
-        <ToggleSearchCriteria
-          searchTypes={searchTypes}
-          searchType={searchType}
-          setSearchType={setSearchType}
-        />{" "}
-        within your Spotify playlists
+        search within your Spotify account
       </h1>
       {loading ? (
         children
@@ -101,7 +68,7 @@ function Search({
             <button
               type="button"
               aria-label="Temizle"
-              onClick={() => dispatch(searchStart(searchTypes[searchType], ""))}
+              onClick={() => dispatch(searchStart(""))}
               css={css`
                 position: absolute;
                 right: 1rem;

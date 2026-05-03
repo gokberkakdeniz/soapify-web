@@ -2,17 +2,13 @@ import { TrackSearchObject } from "./search.helpers";
 import {
   SearchEndAction,
   SearchStartAction,
-  SearchType,
   SEARCH_END,
   SEARCH_START,
 } from "./search.types";
 
-export const searchStart = (
-  type: SearchType,
-  query: string,
-): SearchStartAction => ({
+export const searchStart = (query: string): SearchStartAction => ({
   type: SEARCH_START,
-  payload: { type, query },
+  payload: { query },
 });
 
 export const searchEnd = (result: TrackSearchObject[]): SearchEndAction => ({
