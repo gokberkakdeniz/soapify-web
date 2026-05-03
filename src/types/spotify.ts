@@ -45,3 +45,16 @@ export interface TrackObject {
   uri: string;
   added_at: string;
 }
+
+export interface ArtistDetailObject {
+  id: string;
+  name: string;
+  images: Array<{ url: string; height: number; width: number }>;
+  genres: string[];
+  popularity: number;
+  external_urls: { spotify: string };
+}
+
+export interface ArtistsResponse {
+  artists: ArtistDetailObject[];
+}

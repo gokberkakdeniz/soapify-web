@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { useAppSelector } from "../../hooks/redux";
 import { ProgressBar } from "../../components";
-import { Search, SearchResult } from "./components";
+import { Search, SearchResult, ArtistRecommendations } from "./components";
 import tracksLoadingSelector from "./helpers/tracks-loading-selector";
 
 function Home(): JSX.Element {
@@ -28,6 +28,7 @@ function Home(): JSX.Element {
         />
       </Search>
       <SearchResult />
+      <ArtistRecommendations />
     </div>
   );
 }

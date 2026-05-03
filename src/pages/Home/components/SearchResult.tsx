@@ -83,27 +83,18 @@ function SearchResult(): JSX.Element {
       >
         {status === "not_found" && "No results found."}
         {showMeta && (
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            `}
-          >
-            <span>
-              <ToggleSearchCriteria
-                searchTypes={SORT_KEYS}
-                searchType={sortKeyIndex}
-                setSearchType={setSortKeyIndex}
-              />{" "}
-              <ToggleSearchCriteria
-                searchTypes={SORT_DIRS}
-                searchType={sortDirIndex}
-                setSearchType={setSortDirIndex}
-              />
-            </span>
-            <span>Total: {tracks.length}</span>
-          </div>
+          <span>
+            <ToggleSearchCriteria
+              searchTypes={SORT_KEYS}
+              searchType={sortKeyIndex}
+              setSearchType={setSortKeyIndex}
+            />{" "}
+            <ToggleSearchCriteria
+              searchTypes={SORT_DIRS}
+              searchType={sortDirIndex}
+              setSearchType={setSortDirIndex}
+            />
+          </span>
         )}
       </div>
       <div>
@@ -115,6 +106,15 @@ function SearchResult(): JSX.Element {
           style={{ height: 560, width: "100%" }}
         />
       </div>
+      {showMeta && (
+        <div
+          css={css`
+            text-align: right;
+          `}
+        >
+          Total: {tracks.length}
+        </div>
+      )}
     </div>
   );
 }

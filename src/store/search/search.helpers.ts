@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 import memorize from "memoize-one";
 import Fuse from "fuse.js";
 import { AppState } from "../reducer";
+import { ArtistObject } from "../../types/spotify";
 
 export const flatTracks = createSelector(
   (state: AppState) => state.tracks.data,
@@ -114,6 +115,54 @@ const parseQuery = (query: string): ParsedQuery => {
   result.text = remaining.trim();
   return result;
 };
+
+export interface ArtistStat {
+  id: string;
+  name: string;
+  trackCount: number;
+  likedCount: number;
+}
+
+export const artistStats = createSelector(
+  (state: AppState) => state.tracks.data,
+  (state: AppState) => state.liked.tracks,
+  (tracksData, likedTracks): ArtistStat[] => {
+    const likedUris = new Set(likedTracks.map((t) => t.uri));
+    const playlistUris = new Set<string>();
+    const statsMap = new Map<string, ArtistStat>();
+
+    const accumulate = (artist: ArtistObject, isLiked: boolean) => {
+      const existing = statsMap.get(artist.id);
+      if (existing) {
+        existing.trackCount += 1;
+        if (isLiked) existing.likedCount += 1;
+      } else {
+        statsMap.set(artist.id, {
+          id: artist.id,
+          name: artist.name,
+          trackCount: 1,
+          likedCount: isLiked ? 1 : 0,
+        });
+      }
+    };
+
+    Object.values(tracksData).forEach(({ tracks }) =>
+      tracks.forEach((track) => {
+        playlistUris.add(track.uri);
+        const isLiked = likedUris.has(track.uri);
+        track.album.artists.forEach((a) => accumulate(a, isLiked));
+      }),
+    );
+
+    likedTracks
+      .filter((t) => !playlistUris.has(t.uri))
+      .forEach((track) =>
+        track.album.artists.forEach((a) => accumulate(a, true)),
+      );
+
+    return [...statsMap.values()].sort((a, b) => b.trackCount - a.trackCount);
+  },
+);
 
 export const filterWithDSL = (
   fuse: Fuse<TrackSearchObject>,
