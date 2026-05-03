@@ -73,6 +73,7 @@ export const createIndex = memorize((tracks: TrackSearchObject[]) => {
       { name: "liked", getFn: (t) => String(t.liked) },
     ],
     useExtendedSearch: true,
+    ignoreLocation: true,
     threshold: 0.2,
   });
 });
@@ -91,10 +92,12 @@ const parseQuery = (query: string): ParsedQuery => {
   let remaining = query;
 
   remaining = remaining.replace(
-    /(album|track|artist|playlist):(?:"([^"]*)"|(\S+))/g,
+    /(album|track|artist|playlist):(?:"((?:[^"\\]|\\.)*)"|(\S+))/g,
     (_, field: string, quoted: string, unquoted: string) => {
-      (result as unknown as Record<string, unknown>)[field] =
-        quoted ?? unquoted;
+      (result as unknown as Record<string, unknown>)[field] = quoted
+        ? // eslint-disable-next-line quotes
+          quoted.replace(/\\"/g, '"')
+        : unquoted;
       return "";
     },
   );
