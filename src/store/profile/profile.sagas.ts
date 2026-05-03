@@ -18,6 +18,7 @@ import { get } from "../../helpers/fetch";
 import { ErrorObject, UserObject } from "../../types/spotify";
 import { AppState } from "../reducer";
 import { tracksRestore } from "../tracks";
+import { likedRestore } from "../liked";
 
 export function* profileRequestSaga(): Generator<
   ForkEffect<never>,
@@ -48,6 +49,19 @@ function* profileSuccessSaga() {
       const tracks = JSON.parse(localStorage.getItem(`tracks.${userId}`));
       if (typeof tracks === "object" && tracks != null) {
         yield put(tracksRestore(tracks));
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
+
+    try {
+      const liked = JSON.parse(
+        // @ts-expect-error
+        localStorage.getItem(`liked.${userId}`),
+      );
+      if (Array.isArray(liked)) {
+        yield put(likedRestore(liked));
       }
     } catch (err) {
       // eslint-disable-next-line no-console
