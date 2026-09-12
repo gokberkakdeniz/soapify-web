@@ -1,6 +1,7 @@
 import { TrackSearchObject } from "../../../store/search/search.helpers";
 
 const CSV_HEADERS = [
+  "Track URI",
   "Track",
   "Artists",
   "Album",
@@ -25,6 +26,7 @@ const toCsvRow = (fields: string[]): string =>
 const tracksToCsv = (tracks: TrackSearchObject[]): string => {
   const rows = tracks.map((track) =>
     toCsvRow([
+      track.uri,
       track.track_name,
       track.artists.join(", "),
       track.album_name,
